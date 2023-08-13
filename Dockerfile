@@ -5,4 +5,4 @@ COPY . .
 RUN npm i
 EXPOSE 7000
 
-CMD ["node", "index.js"]
+CMD ["node", "src/index.js"]

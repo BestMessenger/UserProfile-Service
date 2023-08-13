@@ -2,8 +2,6 @@ version: "2"
 services:
   cassandra:
     image: cassandra
-    expose:
-      - 80
     networks:
       - backend
     healthcheck:
