@@ -5,7 +5,7 @@ const router = express.Router()
 const Uuid = cassandra.types.Uuid
 
 const client = new cassandra.Client({
-    contactPoints: ["cassandra"],
+    contactPoints: ["localhost"],
     localDataCenter: "datacenter1",
 });
 
@@ -133,16 +133,16 @@ router.get('/', function(req,res){
 
 router.post('/', function(req, res){
     client.execute(insert_one_user,
-                   [req.body.userid , req.body.username, req.body.password, req.body.contact, req.body.email, req.body.name, req.body.last_name],
-                   { prepare: true },
-                   (err, result) => {
-                       if (err) {
-                           console.log(err)
-                           res.status(400).send("Not found")
-                       } else {
-                           res.status(201).send("Created")
-                       }
-                   })
+        [req.body.userid , req.body.username, req.body.password, req.body.contact, req.body.email, req.body.name, req.body.last_name],
+        { prepare: true },
+        (err, result) => {
+            if (err) {
+                console.log(err)
+                res.status(400).send("Not found")
+            } else {
+                res.status(201).send("Created")
+            }
+        })
 
 })
 
@@ -196,16 +196,16 @@ router.post('/', function(req, res){
 
 router.put('/:userid', function(req, res){
     client.execute(update_one_user,
-                   [req.body.username, req.body.password, req.body.contact, req.body.email, req.body.name, req.body.last_name, req.params.userid],
-                   { prepare: true },
-                   (err, result) => {
-                       if (err) {
-                           console.log(err)
-                           res.status(404).send("Not found")
-                       } else {
-                           res.status(200).send("Updated")
-                       }
-                   })
+        [req.body.username, req.body.password, req.body.contact, req.body.email, req.body.name, req.body.last_name, req.params.userid],
+        { prepare: true },
+        (err, result) => {
+            if (err) {
+                console.log(err)
+                res.status(404).send("Not found")
+            } else {
+                res.status(200).send("Updated")
+            }
+        })
 
 })
 
@@ -258,15 +258,15 @@ router.put('/:userid', function(req, res){
 
 router.get('/:userid', function(req, res){
     client.execute(get_one_user, [req.params.userid],
-                   { prepare: true },
-                   (err, result) => {
-                       if(err || result.rows.length == 0){
-                           console.log(err)
-                           res.status(404).send("Not found")
-                       } else{
-                           res.send(result.rows[0])
-                       }
-                   })
+        { prepare: true },
+        (err, result) => {
+            if(err || result.rows.length == 0){
+                console.log(err)
+                res.status(404).send("Not found")
+            } else{
+                res.send(result.rows[0])
+            }
+        })
 })
 
 /**
@@ -290,17 +290,17 @@ router.get('/:userid', function(req, res){
 
 router.delete('/:userid', function(req, res){
     client.execute(delete_one_user,
-                   [req.params.userid],
-                   { prepare: true },
-                   (err, result) => {
-                       if(err){
-                           console.log(err)
-                           res.status(404).send("Not found")
-                       } else{
-                           console.log(result)
-                           res.send("Removed")
-                       }
-                   })
+        [req.params.userid],
+        { prepare: true },
+        (err, result) => {
+            if(err){
+                console.log(err)
+                res.status(404).send("Not found")
+            } else{
+                console.log(result)
+                res.send("Removed")
+            }
+        })
 })
 
 
